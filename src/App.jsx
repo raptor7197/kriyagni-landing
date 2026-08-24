@@ -1,52 +1,47 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
+import Lenis from 'lenis'
+import Header from './components/Header'
+import Hero from './components/Hero'
+import Stats from './components/Stats'
+import Services from './components/Services'
+import Clients from './components/Clients'
+import Testimonials from './components/Testimonials'
+import Team from './components/Team'
+import Footer from './components/Footer'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  useEffect(() => {
+    const lenis = new Lenis({
+      lerp: 0.1,
+      anchors: true, // smooth-scrolls in-page #anchors
+    })
+
+    let rafId
+    const raf = (time) => {
+      lenis.raf(time)
+      rafId = requestAnimationFrame(raf)
+    }
+    rafId = requestAnimationFrame(raf)
+
+    return () => {
+      cancelAnimationFrame(rafId)
+      lenis.destroy()
+    }
+  }, [])
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col items-center justify-center p-8">
-      <div className="max-w-2xl w-full space-y-8">
-        <div className="text-center space-y-4">
-          <h1 className="text-5xl font-bold text-white tracking-tight">
-            Welcome
-          </h1>
-          <p className="text-lg text-gray-400">
-            Edit <code className="bg-gray-800 px-2 py-1 rounded text-sm text-purple-400">src/App.jsx</code> and save to test HMR
-          </p>
-        </div>
-
-        <div className="flex justify-center">
-          <button
-            onClick={() => setCount((count) => count + 1)}
-            className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
-          >
-            Count is {count}
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8 border-t border-gray-800">
-          <a
-            href="https://vite.dev/"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-3 p-4 rounded-lg bg-gray-900 hover:bg-gray-800 transition-colors"
-          >
-            <img src="/vite.svg" alt="" className="w-8 h-8" />
-            <span className="text-gray-300">Explore Vite</span>
-          </a>
-          <a
-            href="https://react.dev/"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-3 p-4 rounded-lg bg-gray-900 hover:bg-gray-800 transition-colors"
-          >
-            <img src="/react.svg" alt="" className="w-8 h-8" />
-            <span className="text-gray-300">Learn React</span>
-          </a>
-        </div>
-      </div>
-    </div>
+    <>
+      <Header />
+      <div className="min-h-[--header-h]" aria-hidden="true" />
+      <main>
+        <Hero />
+        <Stats />
+        <Services />
+        <Clients />
+        <Testimonials />
+        <Team />
+      </main>
+      <Footer />
+    </>
   )
 }
-
-export default App

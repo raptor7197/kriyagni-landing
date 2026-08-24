@@ -1,3 +1,62 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --theme-bg: 255 255 255;
+  --theme-fg: 35 35 35;
+  --header-h: 60px;
+}
+
+[data-theme='dark'] {
+  --theme-bg: 35 35 35;
+  --theme-fg: 255 255 255;
+}
+
+@layer base {
+  html {
+    scroll-behavior: auto; /* Lenis owns scrolling */
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  body {
+    @apply bg-theme-bg font-sans text-theme-fg antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: #a1ffcb;
+    color: #232323;
+  }
+}
+
+@layer utilities {
+  .shadow-border-b {
+    box-shadow: 0 1px 0 0 rgb(var(--theme-fg));
+  }
+
+  .shadow-border-t {
+    box-shadow: 0 -1px 0 0 rgb(var(--theme-fg));
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Header logo block is dark in light theme, footer is dark in dark theme */
+  [data-theme='light'] .logo-invert-header {
+    filter: invert(1);
+  }
+
+  [data-theme='dark'] .logo-invert-footer {
+    filter: invert(1);
+  }
+}
