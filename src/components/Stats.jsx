@@ -2,19 +2,19 @@ import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'framer-motion'
 import { ABOUT } from '../data/content'
 import Eyebrow from './ui/Eyebrow'
-import { Reveal } from './ui/Reveal'
+import { Reveal, SOFT_EASE } from './ui/Reveal'
 
-const ROLL_MS = 1400
+const ROLL_MS = 2200
 
 /** Slot-machine digit roller: each digit column spins to its value. */
 function RollingDigit({ target, active, index }) {
   return (
     <span className="relative inline-block h-[1em] w-[0.62em] overflow-hidden align-baseline">
       <span
-        className="absolute left-0 top-0 flex flex-col transition-transform ease-in-out-quart"
+        className="absolute left-0 top-0 flex flex-col"
         style={{
           transform: active ? `translateY(-${target}em)` : 'translateY(0)',
-          transitionDuration: `${ROLL_MS + index * 120}ms`,
+          transition: `transform ${ROLL_MS + index * 160}ms cubic-bezier(0.22, 1, 0.36, 1)`,
         }}
       >
         {Array.from({ length: 10 }, (_, d) => (
@@ -55,7 +55,7 @@ function StatCell({ value, label, tone }) {
 
   useEffect(() => {
     if (inView) {
-      const t = setTimeout(() => setActive(true), 150)
+      const t = setTimeout(() => setActive(true), 250)
       return () => clearTimeout(t)
     }
   }, [inView])
@@ -65,7 +65,9 @@ function StatCell({ value, label, tone }) {
       ref={ref}
       className={`flex min-h-200 flex-col justify-between gap-32 p-20 ${TONES[tone]}`}
     >
-      <p className="font-mono text-caption-10 uppercase opacity-70">{label}</p>
+      <Reveal duration={1.2} ease={SOFT_EASE}>
+        <p className="font-mono text-caption-10 uppercase opacity-70">{label}</p>
+      </Reveal>
       <p className="text-digit-20 w-fit">
         <RollingValue value={value} active={active} />
       </p>
@@ -78,13 +80,13 @@ export default function Stats() {
     <section id="why" className="scroll-mt-[--header-h] border-t border-theme-fg/15">
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:divide-x lg:divide-theme-fg/15">
         <div className="px-12 py-20 lg:px-20">
-          <Reveal>
+          <Reveal duration={1.2} ease={SOFT_EASE}>
             <Eyebrow>{ABOUT.eyebrow}</Eyebrow>
           </Reveal>
         </div>
         <div className="flex flex-col gap-[1em] px-12 pb-60 pt-20 text-body-30 lg:px-20 lg:pt-120">
           {ABOUT.paragraphs.map((p, i) => (
-            <Reveal key={i} delay={i * 0.12}>
+            <Reveal key={i} delay={i * 0.18} duration={1.2} y={16} ease={SOFT_EASE}>
               <p>{p}</p>
             </Reveal>
           ))}

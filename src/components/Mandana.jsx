@@ -1,24 +1,25 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { CLIENTS } from '../data/content'
+import { CHAT, CLIENTS, FAQ } from '../data/content'
 import Button from './ui/Button'
 import Eyebrow from './ui/Eyebrow'
-import { EASE, LineReveal, Reveal } from './ui/Reveal'
+import { EASE, LineReveal, Reveal, SOFT_EASE } from './ui/Reveal'
+import ChatMockup from './ChatMockup'
+import FAQCarousel from './FAQ'
 
 const pad = (n) => String(n).padStart(2, '0')
 
-export default function Clients() {
+export default function Mandana() {
   const [active, setActive] = useState(0)
   const total = CLIENTS.items.length
-  const current = CLIENTS.items[active]
 
   return (
-    <section id="clients" className="scroll-mt-[--header-h] border-t border-theme-fg/15">
+    <section id="mandana" className="scroll-mt-[--header-h] border-t border-theme-fg/15">
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:divide-x lg:divide-theme-fg/15">
-        {/* Left: intro + list */}
+        {/* Left: intro + reasoning steps */}
         <div className="flex flex-col">
           <div className="flex items-start justify-between gap-12 p-20">
-            <Reveal>
+            <Reveal duration={1.2} ease={SOFT_EASE}>
               <Eyebrow>{CLIENTS.eyebrow}</Eyebrow>
             </Reveal>
             <p className="font-mono text-caption-10 tabular-nums opacity-50">
@@ -27,10 +28,10 @@ export default function Clients() {
           </div>
 
           <h2 className="px-20 py-20 text-headline-50 lg:sticky lg:top-[--header-h]">
-            <LineReveal lines={[CLIENTS.headline]} />
+            <LineReveal lines={[CLIENTS.headline]} duration={1.2} ease={SOFT_EASE} />
           </h2>
 
-          <Reveal className="max-w-520 px-20 text-body-10" delay={0.15}>
+          <Reveal className="max-w-520 px-20 text-body-10" delay={0.15} duration={1.2} ease={SOFT_EASE}>
             <p>{CLIENTS.description}</p>
           </Reveal>
 
@@ -38,7 +39,7 @@ export default function Clients() {
             <Button href={CLIENTS.cta.href}>{CLIENTS.cta.label}</Button>
           </div>
 
-          {/* Client list */}
+          {/* Reasoning steps */}
           <ul className="mt-auto divide-y divide-theme-fg/15 border-t border-theme-fg/15">
             {CLIENTS.items.map((c, i) => {
               const isActive = i === active
@@ -74,33 +75,18 @@ export default function Clients() {
           </ul>
         </div>
 
-        {/* Right: preview tile */}
-        <div className="hidden min-h-[calc(100svh-var(--header-h))] flex-col lg:flex">
-          <div className="relative flex flex-1 items-center justify-center overflow-hidden bg-mint p-40 text-black">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={current.name}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -24 }}
-                transition={{ duration: 0.5, ease: EASE }}
-                className="flex flex-col items-center gap-16 text-center"
-              >
-                {/* Logo placeholder tile — CMS asset drops in here */}
-                <div className="flex size-200 items-center justify-center border border-black/20 bg-white p-24">
-                  <span className="text-headline-10 uppercase leading-none">{current.name}</span>
-                </div>
-                <p className="font-mono text-caption-10 uppercase opacity-60">{current.category}</p>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-          <div className="flex items-center justify-between border-t border-black/10 bg-mint px-20 py-16 text-black">
-            <span className="font-mono text-caption-10 uppercase opacity-60">{CLIENTS.eyebrow}</span>
-            <span className="font-mono text-caption-10 tabular-nums">
-              {pad(active + 1)} / {pad(total)}
-            </span>
-          </div>
+        {/* Right: live chat mockup */}
+        <div className="flex items-center justify-center bg-mint/20 p-20 lg:min-h-[calc(100svh_-_var(--header-h))] lg:p-40">
+          <Reveal duration={1.2} ease={SOFT_EASE} className="w-full">
+            <ChatMockup />
+          </Reveal>
+          <span className="sr-only">{CHAT.question}</span>
         </div>
+      </div>
+
+      {/* FAQ carousel — flagship product Q&A */}
+      <div id="faq" className="scroll-mt-[--header-h] border-t border-theme-fg/15">
+        <FAQCarousel />
       </div>
     </section>
   )

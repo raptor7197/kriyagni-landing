@@ -86,7 +86,7 @@ function ServiceItem({ item, i }) {
 
 export default function Services() {
   return (
-    <section id="about" className="scroll-mt-[--header-h] border-t border-theme-fg/15">
+    <section id="products" className="scroll-mt-[--header-h] border-t border-theme-fg/15">
       <div className="grid grid-cols-1 items-start lg:grid-cols-2 lg:divide-x lg:divide-theme-fg/15">
         {/* Sticky intro panel */}
         <div className="relative z-1 flex flex-col gap-60 bg-mint p-20 text-black lg:sticky lg:top-[--header-h] lg:min-h-[calc(100svh-var(--header-h))] lg:p-40">

@@ -20,7 +20,6 @@ export const HERO = {
   note: 'Cited reasoning · Core & Infinity depth · Private by default',
   cta: { label: 'Explore Mandana AI', href: '/search/new' },
   marqueeLabel: 'Capabilities',
-  // Text wordmarks used as logo placeholders until Sanity assets land.
   marqueeLogos: ['Consumer', 'Enterprise', 'Impact', 'Embodied'],
 }
 
@@ -89,7 +88,36 @@ export const CLIENTS = {
   ],
 }
 
-export const TESTIMONIALS = {
+export const CHAT = {
+  brand: 'KriyagniAI',
+  status: 'Live now',
+  tab: 'Consumer AI',
+  sidebar: ['New session', 'History', 'Sources', 'Exports'],
+  question:
+    'Should we enter the Pune market this quarter, or wait for clearer demand signals?',
+  srcLabel: 'Open',
+  srcPath: 'src/',
+  steps: [
+    { glyph: '├──', label: 'Hidden Question' },
+    { glyph: '├──', label: 'Assumptions' },
+    { glyph: '└──', label: 'Competing Views' },
+    { glyph: '├──', label: 'Evidence' },
+    { glyph: '├──', label: 'Trade-offs', accent: '+87 −23' },
+    { glyph: '├──', label: 'Reasoning' },
+    { glyph: '└──', label: 'Decision' },
+    { glyph: '└──', label: 'Next Question' },
+  ],
+  decision: 'Decision · Reasoning',
+  chips: [
+    'Reasoning complete',
+    'Evidence weighed',
+    'Assumptions clear',
+    'Next Question',
+  ],
+  tradeOffs: 'Trade-offs · +87 −23',
+}
+
+export const FAQ = {
   eyebrow: 'FAQ',
   // CMS: question, answer, and optional link per entry.
   items: [

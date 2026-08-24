@@ -33,7 +33,7 @@ function TeamCard({ member }) {
 
 export default function Team() {
   return (
-    <section id="team" className="scroll-mt-[--header-h] border-t border-theme-fg/15">
+    <section id="about" className="scroll-mt-[--header-h] border-t border-theme-fg/15">
       {/* Heading rows */}
       <div className="grid grid-cols-1 divide-y divide-theme-fg/15 lg:grid-cols-2 lg:divide-x lg:divide-y-0">
         <div className="p-20">

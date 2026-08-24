@@ -29,18 +29,18 @@ function CityClock({ label, timeZone }) {
 
 export default function Footer() {
   return (
-    <footer className="border-t border-theme-fg/15">
+    <footer className="relative isolate border-t border-theme-fg/15">
       {/* Giant CTA over the WebGL canvas */}
-      <div className="relative flex min-h-[calc(100svh-var(--header-h))] flex-col items-center justify-center overflow-clip py-60">
-        <ThreeCanvas className="absolute inset-0" />
+      <div className="relative flex min-h-[70svh] flex-col items-center justify-center overflow-hidden py-80">
+        <ThreeCanvas className="absolute inset-0 -z-10" />
         <div className="relative z-1 flex flex-col items-center gap-32 px-20 text-center">
           <h2 className="uppercase">
-            <LineReveal lines={FOOTER.stacked} lineClassName="text-headline-50 leading-[0.82] whitespace-nowrap" />
+            <LineReveal lines={FOOTER.stacked} lineClassName="text-headline-50 leading-[0.82] whitespace-nowrap" mount />
           </h2>
-          <Reveal delay={0.15}>
+          <Reveal delay={0.15} mount>
             <p className="font-mono text-caption-20 uppercase opacity-60">{FOOTER.subline}</p>
           </Reveal>
-          <Reveal delay={0.2}>
+          <Reveal delay={0.2} mount>
             <a
               href={FOOTER.explore.href}
               aria-label={FOOTER.explore.label}
