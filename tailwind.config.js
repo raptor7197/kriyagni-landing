@@ -11,6 +11,7 @@ export default {
         white: '#ffffff',
         'theme-bg': 'rgb(var(--theme-bg) / <alpha-value>)',
         'theme-fg': 'rgb(var(--theme-fg) / <alpha-value>)',
+        'accent': '#3a7a73',
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Arial', 'sans-serif'],

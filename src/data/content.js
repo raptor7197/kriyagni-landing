@@ -1,7 +1,7 @@
 /**
  * Central content store.
  * TODO(CMS): replace each section with a Sanity query (GROQ) once the
- * studio is wired up — every component reads only from this file.
+ * studio is wired up - every component reads only from this file.
  */
 
 export const NAV_LINKS = [
@@ -37,6 +37,53 @@ export const ABOUT = {
   ],
 }
 
+export const PERSONAS = {
+  eyebrow: 'Why Mandana Exists',
+  headline: ['Why Mandana Exists.', 'That question became Mandana.'],
+  items: [
+    {
+      id: 'students',
+      label: 'Students',
+      eyebrow: 'Students',
+      title: 'Turn difficult questions into deeper understanding.',
+      body:
+        'Studying isn’t just about finding the right answer. Mandana helps you understand why an answer is right, question assumptions, examine competing explanations, and reason through complex ideas instead of simply memorizing them.',
+      tags: ['Understand concepts from first principles', 'Explore multiple perspectives'],
+      image: '/personas/students.svg',
+    },
+    {
+      id: 'researcher',
+      label: 'Researcher',
+      eyebrow: 'Researcher',
+      title: 'Challenge your thinking before others do.',
+      body:
+        'Research gets stronger when ideas survive scrutiny. Mandana helps you examine competing explanations, surface hidden assumptions, identify gaps in reasoning, and explore alternative interpretations before reaching a conclusion.',
+      tags: ['Surface hidden assumptions', 'Explore counterarguments'],
+      image: '/personas/researcher.svg',
+    },
+    {
+      id: 'founders',
+      label: 'Founders',
+      eyebrow: 'Founders',
+      title: 'Reason through the decisions that shape the company.',
+      body:
+        'Founders make irreversible calls under uncertainty. Mandana stress-tests strategy, pricing, hiring, and product trade-offs by surfacing the assumptions behind each choice and weighing what could break before you commit.',
+      tags: ['Stress-test strategy', 'Weigh irreversible decisions'],
+      image: '/personas/founders.svg',
+    },
+    {
+      id: 'government',
+      label: 'Government',
+      eyebrow: 'Government',
+      title: 'Reason carefully where the stakes are public.',
+      body:
+        'Public decisions affect many. Mandana helps policy teams work through competing interests, weigh evidence transparently, document the reasoning behind a choice, and prepare for the questions that will follow.',
+      tags: ['Documented reasoning', 'Stakeholder-aware analysis'],
+      image: '/personas/government.svg',
+    },
+  ],
+}
+
 export const SERVICES = {
   headline: ['Beyond', 'Consumer', 'AI'],
   cta: { label: 'Explore Mandana AI', href: '/search/new' },
@@ -45,7 +92,7 @@ export const SERVICES = {
       index: '01',
       title: 'Consumer AI',
       description:
-        'Reasoning for the way people actually think. Explore ideas, question assumptions, and make better decisions — one question at a time.',
+        'Reasoning for the way people actually think. Explore ideas, question assumptions, and make better decisions - one question at a time.',
       tags: ['New session', 'History', 'Sources', 'Exports'],
     },
     {
@@ -76,7 +123,7 @@ export const CLIENTS = {
   eyebrow: 'How Mandana thinks',
   headline: 'Mandana',
   description:
-    'Mandana opens the source. Every question becomes a chain of visible reasoning — hidden question, assumptions, competing views, evidence, trade-offs — before it ever answers.',
+    'Mandana is a reasoning engine, not a chatbot. Every question is opened into the work behind the answer — the hidden question, the assumptions made, the competing views considered, the evidence weighed, the trade-offs accepted — before a decision is reached. You see the chain; you can challenge any link; you choose what to do next.',
   cta: { label: 'Start a session', href: '/search/new' },
   items: [
     { name: 'Hidden Question', category: 'Step 01' },
@@ -84,7 +131,9 @@ export const CLIENTS = {
     { name: 'Competing Views', category: 'Step 03' },
     { name: 'Evidence', category: 'Step 04' },
     { name: 'Trade-offs', category: 'Step 05' },
-    { name: 'Next Question', category: 'Step 06' },
+    { name: 'Reasoning', category: 'Step 06' },
+    { name: 'Decision', category: 'Step 07' },
+    { name: 'Next Question', category: 'Step 08' },
   ],
 }
 
@@ -123,7 +172,8 @@ export const FAQ = {
   items: [
     {
       quote: [
-        'Mandana is an AI thinking partner that helps you explore ideas and make better decisions.',
+        'Mandana is an AI reasoning engine built for people who need to think before they answer. It opens the work behind every decision — the hidden question, the assumptions, the competing views, the evidence, the trade-offs — so the conclusion is something you can defend, not just something you were given.',
+        'It is a thinking partner for clearer reasoning, not a chatbot for fast replies.',
       ],
       name: 'What is Mandana?',
       role: 'Frequently asked',
@@ -131,7 +181,10 @@ export const FAQ = {
       company: 'Mandana AI',
     },
     {
-      quote: ['No. Mandana is designed for deeper thinking, not just answering questions.'],
+      quote: [
+        'No. A chatbot is optimized to answer. Mandana is optimized to reason. The difference shows up in the trace: instead of moving from question to answer in one opaque step, Mandana surfaces the hidden question behind your question, names the assumptions it is making, brings in competing views, weighs evidence, and only then commits to a decision.',
+        'You can challenge any link in that chain. A chatbot gives you text; Mandana gives you a position you can interrogate.',
+      ],
       name: 'Is Mandana another chatbot?',
       role: 'Frequently asked',
       position: 'Answer',
@@ -139,7 +192,8 @@ export const FAQ = {
     },
     {
       quote: [
-        'Mandana is inspired by curiosity, first-principles thinking, and human creativity.',
+        'Mandana is inspired by the discipline of philosophical inquiry: the practice of asking what the question really is, what is being assumed, what alternatives have been ruled out too quickly, and what would change the conclusion.',
+        'It carries the spirit of first-principles thinking, structured argumentation, and the creative habit of asking the next question rather than stopping at the first answer.',
       ],
       name: 'What inspires Mandana?',
       role: 'Frequently asked',
@@ -148,7 +202,8 @@ export const FAQ = {
     },
     {
       quote: [
-        'For anyone who wants to think clearer, create better, and solve complex problems.',
+        'For anyone whose decisions are bottlenecked by the quality of their thinking: students reasoning through hard concepts, researchers stress-testing an argument, founders weighing irreversible calls, and policy teams working through questions with public consequence.',
+        'If you have ever wished an answer came with its reasoning attached, Mandana is for you.',
       ],
       name: 'Who is Mandana for?',
       role: 'Frequently asked',
@@ -157,7 +212,8 @@ export const FAQ = {
     },
     {
       quote: [
-        'By breaking down problems, exploring perspectives, and guiding thoughtful reasoning.',
+        'Mandana thinks in an open chain: hidden question, assumptions, competing views, evidence, trade-offs, reasoning, decision, next question. Each step is visible. Each step is challengeable. The reasoning is cited and traceable end-to-end.',
+        'You see how a conclusion was reached, so you can decide whether to accept it, refine it, or reject it — and ask a sharper question next.',
       ],
       name: 'How does Mandana think?',
       role: 'Frequently asked',
@@ -166,7 +222,8 @@ export const FAQ = {
     },
     {
       quote: [
-        'Start a conversation and let Mandana guide your thinking, one question at a time.',
+        'Open a session and ask your question. Mandana will surface the reasoning behind the answer — the hidden question, the assumptions, the trade-offs — and you can challenge any link in the chain. From there, the conversation continues as a working trace of your thinking, not a transcript of chat turns.',
+        'Start with the problem you cannot stop thinking about. Mandana will meet you there.',
       ],
       name: 'How do I experience Mandana?',
       role: 'Frequently asked',
@@ -181,7 +238,7 @@ export const TEAM = {
   subline: 'Research → Intelligence → Products → Impact',
   introEyebrow: 'Mandana Research',
   intro:
-    'How we build: research, then intelligence, then products, then impact. We are building intelligence that lives beyond the screen — structured reasoning for people, organizations, public impact, and the physical world.',
+    'How we build: research, then intelligence, then products, then impact. We are building intelligence that lives beyond the screen - structured reasoning for people, organizations, public impact, and the physical world.',
   cta: { label: 'Explore Mandana AI', href: '/search/new' },
   members: [
     { first: 'Consumer', last: 'AI', role: 'Reasons before it responds' },

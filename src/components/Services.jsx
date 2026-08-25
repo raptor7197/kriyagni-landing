@@ -6,20 +6,20 @@ import { LineReveal, Reveal } from './ui/Reveal'
 function ServiceFigure({ variant }) {
   const common = 'stroke-current'
   const figures = [
-    // 01 — dashed orbital ring
+    // 01 - dashed orbital ring
     <g key="f1">
       <circle cx="60" cy="60" r="54" fill="none" className={`${common} animate-spin-slow origin-center`} strokeWidth="1.5" strokeDasharray="3 6" />
       <circle cx="60" cy="60" r="30" fill="none" className={common} strokeWidth="1.5" />
       <circle cx="60" cy="30" r="4" className="fill-current" />
     </g>,
-    // 02 — crosshair grid
+    // 02 - crosshair grid
     <g key="f2">
       <rect x="8" y="8" width="104" height="104" fill="none" className={common} strokeWidth="1.5" />
       <line x1="60" y1="8" x2="60" y2="112" className={common} strokeWidth="1.5" strokeDasharray="4 5" />
       <line x1="8" y1="60" x2="112" y2="60" className={common} strokeWidth="1.5" strokeDasharray="4 5" />
       <rect x="42" y="42" width="36" height="36" fill="none" className={`${common} animate-spin-slow origin-center`} strokeWidth="1.5" />
     </g>,
-    // 03 — neural nodes
+    // 03 - neural nodes
     <g key="f3">
       <circle cx="30" cy="90" r="6" fill="none" className={common} strokeWidth="1.5" />
       <circle cx="90" cy="30" r="6" fill="none" className={common} strokeWidth="1.5" />
@@ -29,7 +29,7 @@ function ServiceFigure({ variant }) {
       <line x1="36" y1="90" x2="80" y2="90" className={common} strokeWidth="1.5" strokeDasharray="3 4" />
       <line x1="90" y1="36" x2="90" y2="80" className={common} strokeWidth="1.5" strokeDasharray="3 4" />
     </g>,
-    // 04 — stacked tiers
+    // 04 - stacked tiers
     <g key="f4">
       <rect x="20" y="80" width="80" height="16" fill="none" className={common} strokeWidth="1.5" />
       <rect x="32" y="54" width="56" height="16" fill="none" className={common} strokeWidth="1.5" />

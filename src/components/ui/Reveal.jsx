@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 const EASE = [0.16, 1, 0.3, 1]
 const SOFT_EASE = [0.22, 1, 0.36, 1]
@@ -10,14 +10,14 @@ export function Reveal({ children, delay = 0, className = '', y = 24, mount = fa
     : { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-5% 0px' } }
 
   return (
-    <motion.div
+    <m.div
       className={className}
       initial={{ opacity: 0, y }}
       {...animateProps}
       transition={{ duration, delay, ease }}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }
 
@@ -36,7 +36,7 @@ export function LineReveal({
     <span className={`flex flex-col ${className}`}>
       {lines.map((line, i) => (
         <span key={i} className="block overflow-hidden">
-          <motion.span
+          <m.span
             className={`block ${lineClassName}`}
             initial={{ y: '110%' }}
             {...(mount
@@ -45,7 +45,7 @@ export function LineReveal({
             transition={{ duration, delay: delay + i * stagger, ease }}
           >
             {line}
-          </motion.span>
+          </m.span>
         </span>
       ))}
     </span>

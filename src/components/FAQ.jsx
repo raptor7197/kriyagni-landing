@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m } from 'framer-motion'
 import { FAQ } from '../data/content'
 import Eyebrow from './ui/Eyebrow'
-import { EASE, SOFT_EASE } from './ui/Reveal'
+import { SOFT_EASE } from './ui/Reveal'
 
 const pad = (n) => String(n).padStart(2, '0')
+
+const transition = { duration: 0.7, ease: SOFT_EASE }
 
 function Arrow({ direction }) {
   return (
@@ -32,15 +34,13 @@ export default function FAQCarousel() {
     exit: (dir) => ({ opacity: 0, x: dir >= 0 ? -48 : 48 }),
   }
 
-  const transition = { duration: 0.7, ease: SOFT_EASE }
-
   return (
-    <div className="grid grid-cols-1 lg:min-h-[calc(100svh_-_var(--header-h))] lg:grid-cols-[1fr_2fr_1fr] lg:divide-x lg:divide-theme-fg/15">
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr_1fr]">
       {/* Rail: eyebrow, counter, controls */}
-      <div className="flex flex-row items-center justify-between gap-20 p-20 lg:flex-col lg:items-start">
+      <div className="flex flex-row items-center justify-between gap-20 border-b border-theme-fg/15 p-20 lg:flex-col lg:items-start lg:border-b-0">
         <Eyebrow>{FAQ.eyebrow}</Eyebrow>
         <p className="font-mono text-caption-10 tabular-nums opacity-50 lg:order-2">
-          {pad(index + 1)}—{pad(total)}
+          {pad(index + 1)}-{pad(total)}
         </p>
         <div className="flex gap-8 lg:order-3 lg:mt-auto">
           <button
@@ -63,9 +63,9 @@ export default function FAQCarousel() {
       </div>
 
       {/* Answer */}
-      <div className="relative flex min-h-320 flex-col gap-[1em] overflow-hidden border-t border-theme-fg/15 p-20 text-headline-10 lg:border-t-0 lg:p-40">
+      <div className="relative flex flex-col gap-[1em] overflow-hidden border-t border-theme-fg/15 p-20 text-headline-10 lg:min-h-0 lg:border-l lg:border-t-0 lg:p-40">
         <AnimatePresence mode="wait" custom={direction}>
-          <motion.div
+          <m.div
             key={index}
             custom={direction}
             variants={slide}
@@ -78,14 +78,14 @@ export default function FAQCarousel() {
             {current.quote.map((para, i) => (
               <p key={i}>{para}</p>
             ))}
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </div>
 
       {/* Question card */}
-      <div className="flex flex-col justify-between gap-24 border-t border-theme-fg/15 p-20 lg:border-t-0">
+      <div className="flex flex-col justify-between gap-24 border-t border-theme-fg/15 p-20 lg:border-l lg:border-t-0">
         <AnimatePresence mode="wait" custom={direction}>
-          <motion.div
+          <m.div
             key={index}
             custom={direction}
             variants={slide}
@@ -108,7 +108,7 @@ export default function FAQCarousel() {
                 <dd className="text-body-10">{current.company}</dd>
               </div>
             </dl>
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </div>
     </div>

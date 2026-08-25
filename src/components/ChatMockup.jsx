@@ -1,9 +1,9 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { CHAT } from '../data/content'
 import { SOFT_EASE } from './ui/Reveal'
 
 /**
- * Static Mandana reasoning-trace window — the org's flagship product.
+ * Static Mandana reasoning-trace window - the org's flagship product.
  * Mirrors the live app UI: session rail, open question, reasoning tree,
  * decision chips. Steps reveal in sequence on scroll into view.
  */
@@ -46,7 +46,7 @@ export default function ChatMockup() {
         {/* Conversation */}
         <div className="flex flex-col gap-20 p-20">
           {/* Question */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-5% 0px' }}
@@ -54,7 +54,7 @@ export default function ChatMockup() {
             className="border border-white/15 bg-white/5 p-16"
           >
             <p className="text-body-20">{CHAT.question}</p>
-          </motion.div>
+          </m.div>
 
           {/* Reasoning trace */}
           <div className="border border-white/15 bg-white/5 p-16 font-mono text-caption-20 leading-[1.9]">
@@ -63,7 +63,7 @@ export default function ChatMockup() {
               <span className="text-white">{CHAT.srcPath}</span>
             </p>
             {CHAT.steps.map((step, i) => (
-              <motion.p
+              <m.p
                 key={step.label}
                 initial={{ opacity: 0, x: -12 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -76,12 +76,12 @@ export default function ChatMockup() {
                   {step.label}
                 </span>
                 {step.accent && <span className="text-mint">{step.accent}</span>}
-              </motion.p>
+              </m.p>
             ))}
           </div>
 
           {/* Status + chips */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-5% 0px' }}
@@ -106,7 +106,7 @@ export default function ChatMockup() {
                 </span>
               ))}
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Cursor */}
           <p className="font-mono text-caption-20 text-mint">

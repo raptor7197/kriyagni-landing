@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
+import { LazyMotion, MotionConfig, domAnimation } from 'framer-motion'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import Stats from './components/Stats'
 import Mandana from './components/Mandana'
+import Personas from './components/Personas'
 import Team from './components/Team'
 import Services from './components/Services'
 import Footer from './components/Footer'
@@ -29,17 +31,20 @@ export default function App() {
   }, [])
 
   return (
-    <>
-      <Header />
-      <div className="min-h-[--header-h]" aria-hidden="true" />
-      <main>
-        <Hero />
-        <Stats />
-        <Mandana />
-        <Team />
-        <Services />
-      </main>
-      <Footer />
-    </>
+    <MotionConfig reducedMotion="user">
+      <LazyMotion features={domAnimation}>
+        <Header />
+        <div className="min-h-[--header-h]" aria-hidden="true" />
+        <main>
+          <Hero />
+          <Stats />
+          <Mandana />
+          <Personas />
+          <Team />
+          <Services />
+        </main>
+        <Footer />
+      </LazyMotion>
+    </MotionConfig>
   )
 }

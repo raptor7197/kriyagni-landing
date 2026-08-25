@@ -60,3 +60,20 @@
     filter: invert(1);
   }
 }
+
+/* Respect prefers-reduced-motion: disable spatial transforms, scrolling effects,
+   parallax, and autoplay while keeping opacity/color transitions for state feedback. */
+@media (prefers-reduced-motion: reduce) {
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

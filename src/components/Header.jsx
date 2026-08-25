@@ -1,28 +1,7 @@
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import { NAV_LINKS } from '../data/content'
+import { AnimatePresence, m } from 'framer-motion'
+import { HERO, NAV_LINKS } from '../data/content'
 import { EASE } from './ui/Reveal'
-
-const timeFmt = new Intl.DateTimeFormat('en-US', {
-  hour: '2-digit',
-  minute: '2-digit',
-  hour12: true,
-  timeZone: 'America/New_York',
-})
-
-function useClock(timeZone) {
-  const [now, setNow] = useState('--:-- --')
-  useEffect(() => {
-    const fmt = timeZone
-      ? new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit', hour12: true, timeZone })
-      : timeFmt
-    const tick = () => setNow(fmt.format(new Date()))
-    tick()
-    const id = setInterval(tick, 1000 * 15)
-    return () => clearInterval(id)
-  }, [timeZone])
-  return now
-}
 
 function useTheme() {
   const [theme, setTheme] = useState(
@@ -52,13 +31,22 @@ function NavLink({ href, children, onClick }) {
 }
 
 export default function Header() {
-  const nyc = useClock('America/New_York')
   const [theme, toggleTheme] = useTheme()
   const [open, setOpen] = useState(false)
 
+  // Close menu on resize to desktop
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const onResize = () => {
+      if (window.innerWidth >= 1024) setOpen(false)
+    }
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 grid h-[--header-h] grid-cols-[auto_1fr_auto] border-b border-theme-fg/15 bg-theme-bg lg:grid-cols-[auto_auto_1fr_auto]">
+      <header className="fixed inset-x-0 top-0 z-50 grid h-[--header-h] grid-cols-[auto_1fr_auto] border-b border-theme-fg/15 bg-theme-bg">
         <a
           href="#top"
           aria-label="KriyagniAI home"
@@ -77,14 +65,6 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* Clock */}
-        <div className="flex items-center justify-center px-12">
-          <time className="font-mono text-caption-20 tabular-nums" aria-live="off">
-            <span className="opacity-50">NYC&nbsp;</span>
-            {nyc}
-          </time>
-        </div>
-
         {/* Actions */}
         <div className="flex items-stretch divide-x divide-theme-fg/15 border-l border-theme-fg/15">
           <button
@@ -95,10 +75,17 @@ export default function Header() {
             {theme === 'light' ? 'Dark' : 'Light'}
           </button>
           <a
-            href="/auth/sign-in"
-            className="hidden items-center bg-theme-fg px-20 font-mono text-caption-20 uppercase text-theme-bg transition-colors hover:bg-mint hover:text-black sm:flex"
+            href={HERO.cta.href}
+            className="hidden items-center bg-theme-fg px-20 font-mono text-caption-20 uppercase text-theme-bg transition-colors hover:bg-mint hover:text-black lg:flex"
           >
-            Login
+            {HERO.cta.label}
+          </a>
+          <a
+            href={HERO.cta.href}
+            aria-label={HERO.cta.label}
+            className="flex items-center bg-theme-fg px-12 font-mono text-caption-10 uppercase text-theme-bg transition-colors hover:bg-mint hover:text-black lg:hidden"
+          >
+            Try it
           </a>
           <button
             type="button"
@@ -114,7 +101,7 @@ export default function Header() {
       {/* Mobile menu overlay */}
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             className="fixed inset-0 z-40 flex flex-col bg-theme-fg pt-[--header-h] text-theme-bg lg:hidden"
             initial={{ clipPath: 'inset(0 0 100% 0)' }}
             animate={{ clipPath: 'inset(0 0 0% 0)' }}
@@ -124,7 +111,7 @@ export default function Header() {
             <nav className="flex flex-1 flex-col justify-center gap-8 p-20">
               {NAV_LINKS.map((l, i) => (
                 <span key={l.href} className="block overflow-hidden">
-                  <motion.span
+                  <m.span
                     className="block"
                     initial={{ y: '110%' }}
                     animate={{ y: '0%' }}
@@ -138,19 +125,26 @@ export default function Header() {
                     >
                       {l.label}
                     </a>
-                  </motion.span>
+                  </m.span>
                 </span>
               ))}
             </nav>
             <div className="flex items-center justify-between border-t border-theme-bg/20 p-20">
-              <a href="/auth/sign-in" className="font-mono text-caption-20 uppercase underline">
+              <a
+                href="/auth/sign-in"
+                className="font-mono text-caption-20 uppercase underline"
+              >
                 Login
               </a>
-              <button type="button" onClick={toggleTheme} className="font-mono text-caption-20 uppercase">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="font-mono text-caption-20 uppercase"
+              >
                 Theme: {theme}
               </button>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

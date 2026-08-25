@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
 import { CHAT, CLIENTS, FAQ } from '../data/content'
 import Button from './ui/Button'
 import Eyebrow from './ui/Eyebrow'
-import { EASE, LineReveal, Reveal, SOFT_EASE } from './ui/Reveal'
+import { LineReveal, Reveal, SOFT_EASE } from './ui/Reveal'
 import ChatMockup from './ChatMockup'
 import FAQCarousel from './FAQ'
 
@@ -23,7 +22,7 @@ export default function Mandana() {
               <Eyebrow>{CLIENTS.eyebrow}</Eyebrow>
             </Reveal>
             <p className="font-mono text-caption-10 tabular-nums opacity-50">
-              {pad(active + 1)}—{pad(total)}
+              {pad(active + 1)}-{pad(total)}
             </p>
           </div>
 
@@ -31,7 +30,12 @@ export default function Mandana() {
             <LineReveal lines={[CLIENTS.headline]} duration={1.2} ease={SOFT_EASE} />
           </h2>
 
-          <Reveal className="max-w-520 px-20 text-body-10" delay={0.15} duration={1.2} ease={SOFT_EASE}>
+          <Reveal
+            className="max-w-520 px-20 text-body-10"
+            delay={0.15}
+            duration={1.2}
+            ease={SOFT_EASE}
+          >
             <p>{CLIENTS.description}</p>
           </Reveal>
 
@@ -75,8 +79,8 @@ export default function Mandana() {
           </ul>
         </div>
 
-        {/* Right: live chat mockup */}
-        <div className="flex items-center justify-center bg-mint/20 p-20 lg:min-h-[calc(100svh_-_var(--header-h))] lg:p-40">
+        {/* Right: live chat mockup - sticky on desktop, stacked on mobile */}
+        <div className="flex items-center justify-center bg-mint/20 p-12 lg:sticky lg:top-[--header-h] lg:self-start lg:p-40">
           <Reveal duration={1.2} ease={SOFT_EASE} className="w-full">
             <ChatMockup />
           </Reveal>
@@ -84,7 +88,7 @@ export default function Mandana() {
         </div>
       </div>
 
-      {/* FAQ carousel — flagship product Q&A */}
+      {/* FAQ carousel - flagship product Q&A */}
       <div id="faq" className="scroll-mt-[--header-h] border-t border-theme-fg/15">
         <FAQCarousel />
       </div>

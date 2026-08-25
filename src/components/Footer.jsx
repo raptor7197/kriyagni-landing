@@ -1,36 +1,10 @@
-import { useEffect, useState } from 'react'
 import { FOOTER, NAV_LINKS } from '../data/content'
 import ThreeCanvas from './ThreeCanvas'
 import { LineReveal, Reveal } from './ui/Reveal'
 
-function CityClock({ label, timeZone }) {
-  const [now, setNow] = useState('--:-- --')
-  useEffect(() => {
-    const fmt = new Intl.DateTimeFormat('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true,
-      timeZone,
-    })
-    const tick = () => setNow(fmt.format(new Date()))
-    tick()
-    const id = setInterval(tick, 1000 * 15)
-    return () => clearInterval(id)
-  }, [timeZone])
-
-  return (
-    <div className="flex items-baseline gap-8 font-mono text-caption-20 tabular-nums">
-      <span className="opacity-50">{label}</span>
-      <span>—</span>
-      <span>{now}</span>
-    </div>
-  )
-}
-
 export default function Footer() {
   return (
     <footer className="relative isolate border-t border-theme-fg/15">
-      {/* Giant CTA over the WebGL canvas */}
       <div className="relative flex min-h-[70svh] flex-col items-center justify-center overflow-hidden py-80">
         <ThreeCanvas className="absolute inset-0 -z-10" />
         <div className="relative z-1 flex flex-col items-center gap-32 px-20 text-center">
@@ -54,14 +28,15 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Link grid */}
-      <div className="grid grid-cols-1 divide-y divide-theme-fg/15 border-t border-theme-fg/15 lg:grid-cols-4 lg:divide-x lg:divide-y-0">
-        <div className="flex items-center gap-16 p-20">
-          <img src="/logo.png" alt="KriyagniAI" className="logo-invert-footer h-30 w-30 shrink-0" />
-          <ul className="flex flex-wrap gap-x-16 gap-y-8">
+      {/* Link grid - 3 columns, alternating green/white */}
+      <div className="grid grid-cols-1 border-t border-theme-fg/15 sm:grid-cols-3 sm:divide-x sm:divide-theme-fg/15">
+        {/* Col 1 - Logo + nav links (green tint) */}
+        <div className="bg-accent/10 p-24">
+          <img src="/logo.png" alt="KriyagniAI" className="mb-16 h-20 w-20" />
+          <ul className="flex flex-col gap-8">
             {NAV_LINKS.map((l) => (
               <li key={l.href}>
-                <a href={l.href} className="font-mono text-caption-10 uppercase underline-offset-4 hover:underline">
+                <a href={l.href} className="font-mono text-caption-10 uppercase underline-offset-4 hover:underline hover:opacity-80">
                   {l.label}
                 </a>
               </li>
@@ -69,12 +44,8 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="flex flex-col justify-center gap-8 p-20">
-          <CityClock label="NYC time" timeZone="America/New_York" />
-          <CityClock label="LA time" timeZone="America/Los_Angeles" />
-        </div>
-
-        <div className="flex flex-col justify-center gap-8 p-20">
+        {/* Col 2 - Site link + legal links (white) */}
+        <div className="flex flex-col justify-center gap-12 p-24">
           <a
             href={FOOTER.site.href}
             target="_blank"
@@ -83,7 +54,7 @@ export default function Footer() {
           >
             {FOOTER.site.label}
           </a>
-          <ul className="flex gap-16">
+          <ul className="flex flex-col gap-8">
             {FOOTER.links.map((s) => (
               <li key={s.label}>
                 <a
@@ -97,11 +68,9 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="flex items-center justify-between gap-12 p-20 font-mono text-caption-10 opacity-60 lg:flex-col lg:items-start lg:justify-center lg:gap-8">
+        {/* Col 3 - Copyright (green tint) */}
+        <div className="flex items-end bg-accent/10 p-24 font-mono text-caption-10 opacity-60">
           <p>{FOOTER.copyright}</p>
-          <a href={FOOTER.links[0].href} className="underline-offset-4 hover:underline">
-            {FOOTER.links[0].label}
-          </a>
         </div>
       </div>
     </footer>
