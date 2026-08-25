@@ -1,4 +1,5 @@
 import { TEAM } from '../data/content'
+import BuildPipeline from './BuildPipeline'
 import Button from './ui/Button'
 import Eyebrow from './ui/Eyebrow'
 import { LineReveal, Reveal } from './ui/Reveal'
@@ -26,6 +27,13 @@ export default function Team() {
             </Reveal>
           </div>
         </div>
+      </div>
+
+      {/* Interactive Research Pipeline Graphic */}
+      <div className="border-t border-theme-fg/15 p-20 lg:p-40">
+        <Reveal>
+          <BuildPipeline />
+        </Reveal>
       </div>
 
       {/* CTA row */}
