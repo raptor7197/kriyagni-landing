@@ -122,7 +122,7 @@ export default function BuildPipeline() {
   const isPathActive = (path) => ACTIVE_ROUTES[activeBranch].has(path.id)
 
   return (
-    <div className="w-full flex flex-col gap-24">
+    <div className="hidden w-full flex-col gap-24 md:flex">
       {/* Header text */}
       <div className="flex flex-col gap-10 text-center items-center">
         <Eyebrow>Mandana Research</Eyebrow>

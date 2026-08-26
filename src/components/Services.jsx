@@ -1,4 +1,5 @@
 import { SERVICES } from '../data/content'
+import { m } from 'framer-motion'
 import Button from './ui/Button'
 import { LineReveal, Reveal } from './ui/Reveal'
 
@@ -24,7 +25,14 @@ function ServiceFigure({ variant }) {
       <circle cx="30" cy="90" r="6" fill="none" className={common} strokeWidth="1.5" />
       <circle cx="90" cy="30" r="6" fill="none" className={common} strokeWidth="1.5" />
       <circle cx="90" cy="90" r="10" fill="none" className={common} strokeWidth="1.5" />
-      <circle cx="30" cy="30" r="4" className="fill-current" />
+      <circle r="4" className="fill-current">
+        <animateMotion
+          dur="3s"
+          repeatCount="indefinite"
+          calcMode="paced"
+          path="M 30 90 L 90 30 L 90 90 L 30 90"
+        />
+      </circle>
       <line x1="36" y1="86" x2="84" y2="36" className={common} strokeWidth="1.5" />
       <line x1="36" y1="90" x2="80" y2="90" className={common} strokeWidth="1.5" strokeDasharray="3 4" />
       <line x1="90" y1="36" x2="90" y2="80" className={common} strokeWidth="1.5" strokeDasharray="3 4" />
@@ -33,20 +41,32 @@ function ServiceFigure({ variant }) {
     <g key="f4">
       <rect x="20" y="80" width="80" height="16" fill="none" className={common} strokeWidth="1.5" />
       <rect x="32" y="54" width="56" height="16" fill="none" className={common} strokeWidth="1.5" />
-      <rect x="44" y="28" width="32" height="16" fill="none" className={`${common}`} strokeWidth="1.5" strokeDasharray="4 4" />
+      <rect x="44" y="28" width="32" height="16" fill="none" className={common} strokeWidth="1.5" strokeDasharray="96" strokeDashoffset="96">
+        <animate
+          attributeName="stroke-dashoffset"
+          values="96;0;0;96"
+          keyTimes="0;0.7;0.9;1"
+          dur="3.2s"
+          repeatCount="indefinite"
+        />
+      </rect>
       <circle cx="60" cy="14" r="5" className="fill-current" />
       <line x1="60" y1="19" x2="60" y2="28" className={common} strokeWidth="1.5" />
     </g>,
   ]
 
   return (
-    <svg
+    <m.svg
       viewBox="0 0 120 120"
       className="ml-auto w-100 shrink-0 opacity-70 lg:w-120"
       aria-hidden="true"
+      initial={{ opacity: 0, scale: 0.92, y: 8 }}
+      animate={{ opacity: [0.7, 1, 0.7], scale: [0.98, 1, 0.98], y: [2, -3, 2] }}
+      transition={{ duration: 5, delay: variant * 0.18, repeat: Infinity, ease: 'easeInOut' }}
+      whileHover={{ scale: 1.04 }}
     >
       {figures[variant % figures.length]}
-    </svg>
+    </m.svg>
   )
 }
 
@@ -89,7 +109,7 @@ export default function Services() {
     <section id="products" className="scroll-mt-[--header-h] border-t border-theme-fg/15">
       <div className="grid grid-cols-1 items-start lg:grid-cols-2 lg:divide-x lg:divide-theme-fg/15">
         {/* Sticky intro panel */}
-        <div className="relative z-1 flex flex-col gap-60 bg-mint p-20 text-black lg:sticky lg:top-[--header-h] lg:min-h-[calc(100svh-var(--header-h))] lg:p-40">
+        <div className="relative z-1 flex flex-col gap-40 bg-mint p-20 text-black lg:sticky lg:top-[--header-h] lg:self-start lg:h-fit lg:p-40">
           <div className="flex flex-col gap-20">
             <span className="font-mono text-caption-10 uppercase opacity-60">KriyagniAI</span>
             <h2 className="uppercase">
@@ -102,7 +122,7 @@ export default function Services() {
           <div className="grid grid-cols-2 gap-12 border-t border-black/20 pt-16 font-mono text-caption-10 uppercase">
             {SERVICES.items.map((item) => <span key={item.index}>{item.index} {item.title}</span>)}
           </div>
-          <div className="mt-auto">
+          <div>
             <Button href={SERVICES.cta.href} className="border-black text-black before:bg-black hover:!text-white">
               {SERVICES.cta.label}
             </Button>

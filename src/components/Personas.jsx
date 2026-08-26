@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { m } from 'framer-motion'
 import { PERSONAS } from '../data/content'
 import Eyebrow from './ui/Eyebrow'
@@ -63,7 +63,7 @@ function PersonaFigure({ id }) {
   return (
     <m.svg
       viewBox="0 0 120 120"
-      className="h-full w-full"
+      className="h-full w-auto max-w-full"
       aria-hidden="true"
       preserveAspectRatio="xMidYMid meet"
       initial={{ opacity: 0, scale: 0.9, y: 12 }}
@@ -79,13 +79,20 @@ export default function Personas() {
   const [active, setActive] = useState(0)
   const current = PERSONAS.items[active]
 
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActive((index) => (index + 1) % PERSONAS.items.length)
+    }, 3000)
+
+    return () => window.clearInterval(timer)
+  }, [])
+
   return (
     <section
       id="personas"
       className="scroll-mt-[--header-h] border-t border-theme-fg/15"
     >
       <div className="grid grid-cols-1 divide-y divide-theme-fg/15 lg:grid-cols-[1fr_2fr] lg:divide-x lg:divide-y-0">
-        {/* Left rail — eyebrow + headline + tabs */}
         <div className="flex flex-col gap-24 p-20 lg:gap-40 lg:p-40">
           <Reveal duration={1.2} ease={SOFT_EASE}>
             <Eyebrow>{PERSONAS.eyebrow}</Eyebrow>
@@ -94,11 +101,10 @@ export default function Personas() {
             <LineReveal lines={PERSONAS.headline} duration={0.9} ease={SOFT_EASE} mount />
           </h2>
 
-          {/* Persona tabs */}
           <ul
             role="tablist"
             aria-label="Mandana personas"
-            className="mt-auto flex flex-wrap gap-8"
+            className="mt-auto grid grid-cols-2 gap-6 sm:flex sm:flex-wrap sm:gap-8"
           >
             {PERSONAS.items.map((p, i) => {
               const isActive = i === active
@@ -109,7 +115,7 @@ export default function Personas() {
                     role="tab"
                     aria-selected={isActive}
                     onClick={() => setActive(i)}
-                    className={`relative isolate overflow-hidden border border-theme-fg px-16 py-10 font-mono text-caption-20 uppercase transition-colors duration-600 ease-out-expo ${
+                    className={`relative isolate w-full overflow-hidden border border-theme-fg px-10 py-8 font-mono text-caption-10 uppercase transition-colors duration-600 ease-out-expo sm:w-auto sm:px-16 sm:py-10 sm:text-caption-20 ${
                       isActive
                         ? 'bg-theme-fg text-theme-bg'
                         : 'bg-theme-bg text-theme-fg hover:bg-theme-fg hover:text-theme-bg'
@@ -156,7 +162,7 @@ export default function Personas() {
           {/* Figure panel — fixed height on desktop so it doesn't stretch the row */}
           <div
             key={`${current.id}-fig`}
-            className="flex aspect-square items-center justify-center self-center border-t border-theme-fg/15 bg-accent/10 p-32 lg:my-40 lg:mr-40 lg:aspect-square lg:h-auto lg:w-[min(100%,300px)] lg:justify-self-end lg:border-l lg:border-t-0"
+            className="flex h-[180px] w-full items-center justify-end self-center border-t border-theme-fg/15 bg-accent/10 p-20 lg:my-40 lg:mr-40 lg:aspect-square lg:h-auto lg:w-[min(100%,300px)] lg:justify-self-end lg:justify-center lg:border-l lg:border-t-0 lg:p-32"
             aria-hidden="true"
           >
             <PersonaFigure id={current.id} />

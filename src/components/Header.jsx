@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, m } from 'framer-motion'
 import { HERO, NAV_LINKS } from '../data/content'
 import { EASE } from './ui/Reveal'
+import AnimatedThemeToggler from './ui/AnimatedThemeToggler'
 
 function useTheme() {
   const [theme, setTheme] = useState(
@@ -11,7 +12,7 @@ function useTheme() {
     document.documentElement.dataset.theme = theme
     localStorage.setItem('theme', theme)
   }, [theme])
-  return [theme, () => setTheme((t) => (t === 'light' ? 'dark' : 'light'))]
+  return [theme, setTheme]
 }
 
 function NavLink({ href, children, onClick }) {
@@ -31,10 +32,9 @@ function NavLink({ href, children, onClick }) {
 }
 
 export default function Header() {
-  const [theme, toggleTheme] = useTheme()
+  const [theme, setTheme] = useTheme()
   const [open, setOpen] = useState(false)
 
-  // Close menu on resize to desktop
   useEffect(() => {
     if (typeof window === 'undefined') return
     const onResize = () => {
@@ -67,13 +67,11 @@ export default function Header() {
 
         {/* Actions */}
         <div className="flex items-stretch divide-x divide-theme-fg/15 border-l border-theme-fg/15">
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className="hidden px-16 font-mono text-caption-20 uppercase transition-colors hover:bg-theme-fg hover:text-theme-bg sm:block"
-          >
-            {theme === 'light' ? 'Dark' : 'Light'}
-          </button>
+          <AnimatedThemeToggler
+            theme={theme}
+            onThemeChange={setTheme}
+            className="hidden sm:inline-flex"
+          />
           <a
             href={HERO.cta.href}
             className="hidden items-center bg-theme-fg px-20 font-mono text-caption-20 uppercase text-theme-bg transition-colors hover:bg-mint hover:text-black lg:flex"
@@ -136,13 +134,11 @@ export default function Header() {
               >
                 Login
               </a>
-              <button
-                type="button"
-                onClick={toggleTheme}
-                className="font-mono text-caption-20 uppercase"
-              >
-                Theme: {theme}
-              </button>
+              <AnimatedThemeToggler
+                theme={theme}
+                onThemeChange={setTheme}
+                className="border border-theme-bg/30"
+              />
             </div>
           </m.div>
         )}

@@ -56,10 +56,10 @@ export default function Footer() {
       </div>
 
       {/* Link grid - 3 columns, alternating green/white */}
-      <div className="grid grid-cols-1 border-t border-theme-fg/15 sm:grid-cols-3 sm:divide-x sm:divide-theme-fg/15">
+      <div className="grid grid-cols-2 border-t border-theme-fg/15 sm:grid-cols-3 sm:divide-x sm:divide-theme-fg/15">
         {/* Col 1 - Logo + nav links (green tint) */}
-        <div className="bg-accent/10 p-24">
-          <img src="/logo.png" alt="KriyagniAI" className="mb-16 h-20 w-20" />
+        <div className="bg-accent/10 p-24 text-center sm:text-left">
+          <img src="/logo.png" alt="KriyagniAI" className="mx-auto mb-16 h-20 w-20 sm:mx-0" />
           <ul className="flex flex-col gap-8">
             {NAV_LINKS.map((l) => (
               <li key={l.href}>
@@ -72,7 +72,7 @@ export default function Footer() {
         </div>
 
         {/* Col 2 - Site link + legal links (white) */}
-        <div className="flex flex-col justify-center gap-12 p-24">
+        <div className="flex flex-col justify-center gap-12 p-24 text-center sm:text-left">
           <a
             href={FOOTER.site.href}
             target="_blank"
@@ -96,7 +96,7 @@ export default function Footer() {
         </div>
 
         {/* Col 3 - Copyright (green tint) */}
-        <div className="flex items-end bg-accent/10 p-24 font-mono text-caption-10 opacity-60">
+        <div className="col-span-2 flex items-center justify-center bg-accent/10 p-24 text-center font-mono text-caption-10 opacity-60 sm:col-span-1 sm:items-end sm:justify-start sm:text-left">
           <p>{FOOTER.copyright}</p>
         </div>
       </div>

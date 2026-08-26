@@ -44,8 +44,8 @@ function RollingValue({ value, active }) {
 
 const TONES = {
   black: 'bg-black text-white',
-  grey: 'bg-mint text-black',
-  white: 'bg-theme-bg text-theme-fg',
+  grey: 'bg-[#7ee7b3] text-black',
+  white: 'bg-theme-bg text-black',
 }
 
 function StatCell({ value, label, tone }) {
@@ -63,14 +63,14 @@ function StatCell({ value, label, tone }) {
   return (
     <div
       ref={ref}
-      className={`flex min-h-200 flex-col justify-between gap-32 p-20 ${TONES[tone]}`}
+      className={`flex min-w-0 min-h-200 flex-col justify-between gap-32 overflow-hidden p-20 ${TONES[tone]}`}
     >
-      <Reveal duration={1.2} ease={SOFT_EASE}>
-        <p className="font-mono text-caption-10 uppercase opacity-70">{label}</p>
-      </Reveal>
-      <p className="text-digit-20 w-fit">
+      <p className="text-digit-20 w-fit order-1">
         <RollingValue value={value} active={active} />
       </p>
+      <Reveal duration={1.2} ease={SOFT_EASE}>
+        <p className="order-2 font-mono text-caption-10 uppercase opacity-90 text-current mt-12">{label}</p>
+      </Reveal>
     </div>
   )
 }

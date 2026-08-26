@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AnimatePresence, m } from 'framer-motion'
 import { FAQ } from '../data/content'
 import Eyebrow from './ui/Eyebrow'
@@ -8,25 +8,21 @@ const pad = (n) => String(n).padStart(2, '0')
 
 const transition = { duration: 0.7, ease: SOFT_EASE }
 
-function Arrow({ direction }) {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path
-        d={direction === 'prev' ? 'M15 8H1M1 8l6-6M1 8l6 6' : 'M1 8h14M15 8L9 2M15 8l-6 6'}
-        stroke="currentColor"
-        strokeWidth="1.5"
-      />
-    </svg>
-  )
-}
-
 export default function FAQCarousel() {
   const items = FAQ.items
   const total = items.length
   const [[index, direction], setIndex] = useState([0, 0])
   const current = items[index]
 
-  const go = (dir) => setIndex(([i]) => [(i + dir + total) % total, dir])
+  const go = (nextIndex) => setIndex(([i]) => [nextIndex, nextIndex >= i ? 1 : -1])
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setIndex(([i]) => [(i + 1) % total, 1])
+    }, 5000)
+
+    return () => window.clearInterval(timer)
+  }, [total])
 
   const slide = {
     enter: (dir) => ({ opacity: 0, x: dir >= 0 ? 48 : -48 }),
@@ -42,23 +38,20 @@ export default function FAQCarousel() {
         <p className="font-mono text-caption-10 tabular-nums opacity-50 lg:order-2">
           {pad(index + 1)}-{pad(total)}
         </p>
-        <div className="flex gap-8 lg:order-3 lg:mt-auto">
-          <button
-            type="button"
-            onClick={() => go(-1)}
-            aria-label="Previous question"
-            className="flex size-40 items-center justify-center border border-theme-fg transition-colors hover:bg-theme-fg hover:text-theme-bg"
-          >
-            <Arrow direction="prev" />
-          </button>
-          <button
-            type="button"
-            onClick={() => go(1)}
-            aria-label="Next question"
-            className="flex size-40 items-center justify-center border border-theme-fg transition-colors hover:bg-theme-fg hover:text-theme-bg"
-          >
-            <Arrow direction="next" />
-          </button>
+        <div className="flex gap-8 lg:order-3 lg:mt-auto" role="tablist" aria-label="FAQ questions">
+          {items.map((item, itemIndex) => (
+            <button
+              key={item.name}
+              type="button"
+              role="tab"
+              aria-selected={itemIndex === index}
+              aria-label={`Show question ${itemIndex + 1}: ${item.name}`}
+              onClick={() => go(itemIndex)}
+              className={`size-8 rounded-full border border-theme-fg transition-colors duration-300 ${
+                itemIndex === index ? 'bg-theme-fg' : 'bg-transparent hover:bg-theme-fg/30'
+              }`}
+            />
+          ))}
         </div>
       </div>
 
@@ -95,19 +88,34 @@ export default function FAQCarousel() {
             transition={transition}
             className="flex flex-col gap-24"
           >
-            <div className="flex aspect-square w-100 items-center justify-center bg-mint font-mono text-headline-20 uppercase text-black">
+            <m.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.18, ease: SOFT_EASE }}
+              className="flex aspect-square w-100 items-center justify-center bg-mint font-mono text-headline-20 uppercase text-black"
+            >
               ?
-            </div>
-            <div className="flex flex-col gap-8">
+            </m.div>
+            <m.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.18, ease: SOFT_EASE }}
+              className="flex flex-col gap-8"
+            >
               <p className="text-body-10">{current.name}</p>
               <p className="font-mono text-caption-10 uppercase opacity-50">{current.role}</p>
-            </div>
-            <dl className="mt-auto flex flex-col gap-12 border-t border-theme-fg/15 pt-16">
+            </m.div>
+            <m.dl
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.36, ease: SOFT_EASE }}
+              className="mt-auto flex flex-col gap-12 border-t border-theme-fg/15 pt-16"
+            >
               <div className="flex flex-col gap-4">
                 <dt className="font-mono text-caption-10 uppercase opacity-50">{current.position}</dt>
                 <dd className="text-body-10">{current.company}</dd>
               </div>
-            </dl>
+            </m.dl>
           </m.div>
         </AnimatePresence>
       </div>
