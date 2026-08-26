@@ -7,9 +7,9 @@ import { Reveal, SOFT_EASE } from './ui/Reveal'
 const ROLL_MS = 2200
 
 /** Slot-machine digit roller: each digit column spins to its value. */
-function RollingDigit({ target, active, index }) {
+function RollingDigit({ target, active, index, className = '' }) {
   return (
-    <span className="relative inline-block h-[1em] w-[0.62em] overflow-hidden align-baseline">
+    <span className={`relative inline-block h-[1em] w-[0.62em] overflow-hidden align-baseline ${className}`}>
       <span
         className="absolute left-0 top-0 flex flex-col"
         style={{
@@ -18,7 +18,7 @@ function RollingDigit({ target, active, index }) {
         }}
       >
         {Array.from({ length: 10 }, (_, d) => (
-          <span key={d} className="flex h-[1em] items-center leading-none">
+          <span key={d} className="flex h-[1em] items-center leading-none text-current">
             {d}
           </span>
         ))}
@@ -27,15 +27,15 @@ function RollingDigit({ target, active, index }) {
   )
 }
 
-function RollingValue({ value, active }) {
+function RollingValue({ value, active, className = '' }) {
   let digitIndex = 0
   return (
-    <span className="inline-flex items-baseline" aria-label={value}>
+    <span className={`inline-flex items-baseline text-current ${className}`} aria-label={value}>
       {value.split('').map((ch, i) =>
         /\d/.test(ch) ? (
-          <RollingDigit key={i} target={Number(ch)} active={active} index={digitIndex++} />
+          <RollingDigit key={i} target={Number(ch)} active={active} index={digitIndex++} className="text-current" />
         ) : (
-          <span key={i}>{ch}</span>
+          <span key={i} className="text-current">{ch}</span>
         ),
       )}
     </span>
@@ -43,9 +43,12 @@ function RollingValue({ value, active }) {
 }
 
 const TONES = {
+  // Left: solid dark, light text — works in both modes.
   black: 'bg-black text-white',
-  grey: 'bg-[#7ee7b3] text-black',
-  white: 'bg-theme-bg text-black',
+  // Middle: mint accent, dark text — works in both modes.
+  grey: 'bg-mint text-black',
+  // Right: theme-aware background, theme-aware text so contrast always holds.
+  white: 'bg-theme-bg text-theme-fg',
 }
 
 function StatCell({ value, label, tone }) {
@@ -65,8 +68,8 @@ function StatCell({ value, label, tone }) {
       ref={ref}
       className={`flex min-w-0 min-h-200 flex-col justify-between gap-32 overflow-hidden p-20 ${TONES[tone]}`}
     >
-      <p className="text-digit-20 w-fit order-1">
-        <RollingValue value={value} active={active} />
+      <p className="text-digit-20 w-fit order-1 text-current">
+        <RollingValue value={value} active={active} className="text-current" />
       </p>
       <Reveal duration={1.2} ease={SOFT_EASE}>
         <p className="order-2 font-mono text-caption-10 uppercase opacity-90 text-current mt-12">{label}</p>

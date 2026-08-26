@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  // Project toggles theme via data-theme="dark" on <html>, not via OS preference.
+  // Wire Tailwind's `dark:` variant to that selector so utility classes respond
+  // to the in-app theme toggle (Header.jsx).
+  darkMode: ['selector', '[data-theme="dark"]'],
   theme: {
     extend: {
       colors: {
