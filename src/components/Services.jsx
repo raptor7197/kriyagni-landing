@@ -90,9 +90,18 @@ export default function Services() {
       <div className="grid grid-cols-1 items-start lg:grid-cols-2 lg:divide-x lg:divide-theme-fg/15">
         {/* Sticky intro panel */}
         <div className="relative z-1 flex flex-col gap-60 bg-mint p-20 text-black lg:sticky lg:top-[--header-h] lg:min-h-[calc(100svh-var(--header-h))] lg:p-40">
-          <h2 className="uppercase">
-            <LineReveal lines={SERVICES.headline} lineClassName="text-headline-40 leading-[0.85] whitespace-nowrap" />
-          </h2>
+          <div className="flex flex-col gap-20">
+            <span className="font-mono text-caption-10 uppercase opacity-60">KriyagniAI</span>
+            <h2 className="uppercase">
+              <LineReveal lines={SERVICES.headline} lineClassName="text-headline-40 leading-[0.85] whitespace-nowrap" mount />
+            </h2>
+            <p className="max-w-360 text-body-10">
+              Helping people and organizations think more clearly — consumer, enterprise, impact, and embodied intelligence.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-12 border-t border-black/20 pt-16 font-mono text-caption-10 uppercase">
+            {SERVICES.items.map((item) => <span key={item.index}>{item.index} {item.title}</span>)}
+          </div>
           <div className="mt-auto">
             <Button href={SERVICES.cta.href} className="border-black text-black before:bg-black hover:!text-white">
               {SERVICES.cta.label}

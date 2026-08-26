@@ -17,8 +17,10 @@ export default function ThreeCanvas({ className = '' }) {
     const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100)
     camera.position.z = 6
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const compact = window.matchMedia('(max-width: 767px)').matches
+    const renderer = new THREE.WebGLRenderer({ antialias: !compact, alpha: true })
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, compact ? 1 : 1.5))
     mount.appendChild(renderer.domElement)
 
     // Wireframe icosphere
@@ -29,7 +31,7 @@ export default function ThreeCanvas({ className = '' }) {
     scene.add(sphere)
 
     // Particle shell
-    const COUNT = 1400
+    const COUNT = compact ? 420 : 900
     const positions = new Float32Array(COUNT * 3)
     for (let i = 0; i < COUNT; i++) {
       const phi = Math.acos(2 * Math.random() - 1)
@@ -82,18 +84,18 @@ export default function ThreeCanvas({ className = '' }) {
     let raf
     const animate = () => {
       const t = clock.getElapsedTime()
-      sphere.rotation.y = t * 0.12
-      sphere.rotation.x = t * 0.05 + targetY * 0.4
-      points.rotation.y = -t * 0.05
+      sphere.rotation.y = reducedMotion ? 0 : t * 0.12
+      sphere.rotation.x = reducedMotion ? 0 : t * 0.05 + targetY * 0.4
+      points.rotation.y = reducedMotion ? 0 : -t * 0.05
       camera.position.x += (targetX - camera.position.x) * 0.04
       camera.lookAt(0, 0, 0)
       renderer.render(scene, camera)
-      raf = requestAnimationFrame(animate)
+      if (!reducedMotion) raf = requestAnimationFrame(animate)
     }
     animate()
 
     return () => {
-      cancelAnimationFrame(raf)
+      if (raf) cancelAnimationFrame(raf)
       ro.disconnect()
       observer.disconnect()
       window.removeEventListener('pointermove', onPointer)

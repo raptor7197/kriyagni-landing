@@ -1,12 +1,39 @@
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { FOOTER, NAV_LINKS } from '../data/content'
-import ThreeCanvas from './ThreeCanvas'
 import { LineReveal, Reveal } from './ui/Reveal'
 
+const ThreeCanvas = lazy(() => import('./ThreeCanvas'))
+
 export default function Footer() {
+  const canvasHostRef = useRef(null)
+  const [showCanvas, setShowCanvas] = useState(false)
+
+  useEffect(() => {
+    const host = canvasHostRef.current
+    if (!host || !('IntersectionObserver' in window)) {
+      setShowCanvas(true)
+      return undefined
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setShowCanvas(true)
+        observer.disconnect()
+      }
+    }, { rootMargin: '300px' })
+    observer.observe(host)
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <footer className="relative isolate border-t border-theme-fg/15">
       <div className="relative flex min-h-[70svh] flex-col items-center justify-center overflow-hidden py-80">
-        <ThreeCanvas className="absolute inset-0 -z-10" />
+        <div ref={canvasHostRef} className="absolute inset-0 -z-10" aria-hidden="true">
+          {showCanvas && (
+            <Suspense fallback={null}>
+              <ThreeCanvas className="absolute inset-0" />
+            </Suspense>
+          )}
+        </div>
         <div className="relative z-1 flex flex-col items-center gap-32 px-20 text-center">
           <h2 className="uppercase">
             <LineReveal lines={FOOTER.stacked} lineClassName="text-headline-50 leading-[0.82] whitespace-nowrap" mount />

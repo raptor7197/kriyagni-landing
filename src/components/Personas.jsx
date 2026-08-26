@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { m } from 'framer-motion'
 import { PERSONAS } from '../data/content'
 import Eyebrow from './ui/Eyebrow'
 import { LineReveal, Reveal, SOFT_EASE } from './ui/Reveal'
@@ -11,7 +12,6 @@ const pad = (n) => String(n).padStart(2, '0')
  */
 function PersonaFigure({ id }) {
   const common = 'stroke-current'
-  const stroke = 'vector-effect="non-scaling-stroke" strokeWidth="1.5"'
 
   const figs = {
     students: (
@@ -61,14 +61,17 @@ function PersonaFigure({ id }) {
   }
 
   return (
-    <svg
+    <m.svg
       viewBox="0 0 120 120"
       className="h-full w-full"
       aria-hidden="true"
       preserveAspectRatio="xMidYMid meet"
+      initial={{ opacity: 0, scale: 0.9, y: 12 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.45, ease: SOFT_EASE }}
     >
       {figs[id] || figs.researcher}
-    </svg>
+    </m.svg>
   )
 }
 
@@ -153,7 +156,7 @@ export default function Personas() {
           {/* Figure panel — fixed height on desktop so it doesn't stretch the row */}
           <div
             key={`${current.id}-fig`}
-            className="flex aspect-square items-center justify-center self-center border-t border-theme-fg/15 bg-accent/10 p-40 lg:aspect-auto lg:h-full lg:max-h-[420px] lg:border-l lg:border-t-0"
+            className="flex aspect-square items-center justify-center self-center border-t border-theme-fg/15 bg-accent/10 p-32 lg:my-40 lg:mr-40 lg:aspect-square lg:h-auto lg:w-[min(100%,300px)] lg:justify-self-end lg:border-l lg:border-t-0"
             aria-hidden="true"
           >
             <PersonaFigure id={current.id} />

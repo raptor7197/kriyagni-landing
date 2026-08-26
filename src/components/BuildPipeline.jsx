@@ -105,8 +105,21 @@ const PATHS = [
   },
 ]
 
+const ACTIVE_ROUTES = {
+  agents: new Set(['research-intel', 'intel-agents', 'agents-products', 'products-impact']),
+  physical: new Set(['research-intel', 'intel-physical', 'physical-products', 'products-impact']),
+}
+
 export default function BuildPipeline() {
   const [activeNode, setActiveNode] = useState(PIPELINE_NODES[0])
+  const [activeBranch, setActiveBranch] = useState('agents')
+
+  const selectNode = (node) => {
+    if (node.id === 'agents' || node.id === 'physical') setActiveBranch(node.id)
+    setActiveNode(node)
+  }
+
+  const isPathActive = (path) => ACTIVE_ROUTES[activeBranch].has(path.id)
 
   return (
     <div className="w-full flex flex-col gap-24">
@@ -139,8 +152,7 @@ export default function BuildPipeline() {
             className="absolute inset-0 w-full h-full pointer-events-none overflow-visible"
           >
             {PATHS.map((p) => {
-              const isConnected =
-                activeNode.id === p.from || activeNode.id === p.to
+              const isActive = isPathActive(p)
 
               return (
                 <g key={p.id}>
@@ -149,26 +161,19 @@ export default function BuildPipeline() {
                     d={p.d}
                     fill="none"
                     stroke={
-                      isConnected
+                      isActive
                         ? '#a1ffcb'
                         : 'rgba(var(--theme-fg), 0.2)'
                     }
-                    strokeWidth={isConnected ? '2.5' : '1.5'}
+                    strokeWidth={isActive ? '2.5' : '1.5'}
                     className="transition-colors duration-300"
                   />
                   {/* Smooth, single flowing pulse dot along path */}
-                  <circle
-                    r="3.5"
-                    fill="#a1ffcb"
-                    opacity={isConnected ? '1' : '0.6'}
-                    filter="drop-shadow(0 0 4px #a1ffcb)"
-                  >
-                    <animateMotion
-                      dur={p.dur}
-                      repeatCount="indefinite"
-                      path={p.d}
-                    />
-                  </circle>
+                  {isActive && (
+                    <circle r="3.5" fill="#a1ffcb" filter="drop-shadow(0 0 4px #a1ffcb)">
+                      <animateMotion dur={p.dur} repeatCount="indefinite" path={p.d} />
+                    </circle>
+                  )}
                 </g>
               )
             })}
@@ -182,8 +187,8 @@ export default function BuildPipeline() {
               <m.button
                 key={node.id}
                 type="button"
-                onClick={() => setActiveNode(node)}
-                onMouseEnter={() => setActiveNode(node)}
+                onClick={() => selectNode(node)}
+                onMouseEnter={() => selectNode(node)}
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -233,19 +238,20 @@ export default function BuildPipeline() {
               className="absolute inset-0 w-full h-full pointer-events-none overflow-visible"
             >
               {PATHS.map((p) => {
-                const isConnected =
-                  activeNode.id === p.from || activeNode.id === p.to
+                const isActive = isPathActive(p)
                 return (
                   <g key={p.id}>
                     <path
                       d={p.d}
                       fill="none"
-                      stroke={isConnected ? '#a1ffcb' : 'rgba(var(--theme-fg), 0.2)'}
-                      strokeWidth={isConnected ? '2.5' : '1.5'}
+                      stroke={isActive ? '#a1ffcb' : 'rgba(var(--theme-fg), 0.2)'}
+                      strokeWidth={isActive ? '2.5' : '1.5'}
                     />
-                    <circle r="3.5" fill="#a1ffcb" filter="drop-shadow(0 0 4px #a1ffcb)">
-                      <animateMotion dur={p.dur} repeatCount="indefinite" path={p.d} />
-                    </circle>
+                    {isActive && (
+                      <circle r="3.5" fill="#a1ffcb" filter="drop-shadow(0 0 4px #a1ffcb)">
+                        <animateMotion dur={p.dur} repeatCount="indefinite" path={p.d} />
+                      </circle>
+                    )}
                   </g>
                 )
               })}
@@ -257,8 +263,8 @@ export default function BuildPipeline() {
                 <button
                   key={node.id}
                   type="button"
-                  onClick={() => setActiveNode(node)}
-                  onMouseEnter={() => setActiveNode(node)}
+                  onClick={() => selectNode(node)}
+                  onMouseEnter={() => selectNode(node)}
                   style={{
                     left: `${(node.pos.x / 1220) * 100}%`,
                     top: `${(node.pos.y / 380) * 100}%`,
@@ -298,7 +304,7 @@ export default function BuildPipeline() {
               <div key={node.id} className="flex flex-col items-center">
                 <button
                   type="button"
-                  onClick={() => setActiveNode(node)}
+                  onClick={() => selectNode(node)}
                   className={`w-full flex items-center justify-between rounded-xl border p-14 text-left transition-all duration-300 ${
                     isSelected
                       ? 'border-mint bg-theme-bg shadow-[0_0_14px_rgba(161,255,203,0.25)]'
